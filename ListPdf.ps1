@@ -1,8 +1,8 @@
 
-[System.Reflection.Assembly]::LoadFrom(".\itextsharp.dll")
+[System.Reflection.Assembly]::LoadFrom($PWD.Path+"\itextsharp.dll")
 
 
-$workingdir=".\Papers"
+$workingdir=$PWD.Path+"\..\Papers"
 $pdfs = Get-ChildItem $workingdir -File -Filter *.pdf
 
 
@@ -40,7 +40,8 @@ foreach($file in $pdfs)
   else {
     $author = "Unknown"
   }
-  $table = $table + "<tr> <td>" + $filename + "</td>  
+  $relativeFile=Resolve-Path -Path $file.FullName -Relative
+  $table = $table + "<tr> <td> <a href=""" +$relativeFile + " "" >" + $filename + "</a></td>  
           <td>" + $title + "</td> 
           <td>"+ $author +"</td> 
           </tr>"
