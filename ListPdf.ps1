@@ -1,17 +1,15 @@
 
-[System.Reflection.Assembly]::LoadFrom(".\itextsharp.dll")
+[System.Reflection.Assembly]::LoadFrom("C:\Users\Nathan\Documents\Projets\PdfExplorer\itextsharp.dll")
 
 
-$workingdir=".\Papers"
+
+#$workingdir = $args[0]
+#$workingdir="K:\Papers"
+$workingdir = "C:\Users\Nathan\Documents\Projets\PdfExplorer\Papers"
 $pdfs = Get-ChildItem $workingdir -File -Filter *.pdf
 
 
-$style = "<style> 
-table, th, td {    border: 1px solid black;    border-collapse: collapse; }
-th, td {    padding: 5px; }
-th {    text-align: left; }
-td:nth-child(1) {  font-weight:bold }
-</style>"
+
 
 $table = "<table 
 style=""width:100%"">
@@ -19,38 +17,56 @@ style=""width:100%"">
     <th>File</th>
     <th>Title</th>
     <th>Author</th>
+    <th>Nulber of Page</th>
   </tr>"
   
-foreach($file in $pdfs)
-{
-  $filename = [System.IO.Path]::GetFileNameWithoutExtension($file)
-  $reader = New-Object iTextSharp.text.pdf.pdfreader $workingdir\$file
-  if($reader.Info.Title -and $reader.Info.Title -ne "")
-  {
-    $title = $reader.Info.Title.ToString()
-  }
-  else {
-    $title = "Unknown"
-  }
+foreach ($file in $pdfs) {
+    $filename = [System.IO.Path]::GetFileNameWithoutExtension($file)
+    $reader = New-Object iTextSharp.text.pdf.pdfreader $file.FullName
+    if ($reader.Info.Title -and $reader.Info.Title -ne "") {
+        $title = $reader.Info.Title.ToString()
+    }
+    else {
+        $title = "Unknown"
+    }
 
-  if($reader.Info.Author -and $reader.Info.Author -ne "")
-  {
-    $author = $reader.Info.Author.ToString()
-  }
-  else {
-    $author = "Unknown"
-  }
-  $table = $table + "<tr> <td>" + $filename + "</td>  
+    if ($reader.Info.Author -and $reader.Info.Author -ne "") {
+        $author = $reader.Info.Author.ToString()
+    }
+    else {
+        $author = "Unknown"
+    }
+    $table = $table + "<tr> 
+          <td> <a href=""" + $file.FullName + """ >" + $filename + "</a> </td>  
           <td>" + $title + "</td> 
-          <td>"+ $author +"</td> 
+          <td>" + $author + "</td> 
+          <td>" + $reader.NumberOfPages + "</td> 
           </tr>"
 }
-$table += "</table>"
 
+$style = "<style> 
+
+table, th, td {    border: 1px solid black;    border-collapse: collapse; }
+th, td {    padding: 5px; }
+th {    text-align: left; }
+td:nth-child(1) {  font-weight:bold }
+
+ 
+body {
+  margin: 10px auto;
+  padding: 0 30px;
+  max-width: 900px;
+  
+}
+</style>"
 
 $text = "<!DOCTYPE html> 
 <html>"
-$text += "<head>" + $style + "</head> <body>"
+$text += "<head> <link href=""https://fonts.googleapis.com/css?family=Gloria+Hallelujah"" rel=""stylesheet""> 
+" + $style + " 
+<title> Papers </title>
+</head>
+ <body>"
 $text += "<h2>Summary</h2>"
 $text += $table
 $text += "</body> </html>"
