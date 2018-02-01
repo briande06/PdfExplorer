@@ -1,11 +1,8 @@
 
-[System.Reflection.Assembly]::LoadFrom("C:\Users\briand\Documents\bin\PdfExplorer\itextsharp.dll")
+[System.Reflection.Assembly]::LoadFrom(".\itextsharp.dll")
 
 
-
-#$workingdir = $args[0]
-#$workingdir="K:\Papers"
-$workingdir="F:\Papers"
+$workingdir=".\Papers"
 $pdfs = Get-ChildItem $workingdir -File -Filter *.pdf
 
 
