@@ -11,7 +11,7 @@ style=""width:100%"">
     <th>File</th>
     <th>Title</th>
     <th>Author</th>
-    <th>Nulber of Page</th>
+    <th>Number of Page</th>
   </tr>"
   
 foreach($file in $pdfs)
