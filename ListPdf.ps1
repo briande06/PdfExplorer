@@ -5,16 +5,13 @@
 $workingdir=$PWD.Path+"\..\Papers"
 $pdfs = Get-ChildItem $workingdir -File -Filter *.pdf
 
-
-
-
 $table = "<table 
 style=""width:100%"">
   <tr>
     <th>File</th>
     <th>Title</th>
     <th>Author</th>
-    <th>Nulber of Page</th>
+    <th>Number of Page</th>
   </tr>"
   
 foreach($file in $pdfs)
