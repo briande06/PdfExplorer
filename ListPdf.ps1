@@ -5,9 +5,6 @@
 $workingdir=$PWD.Path+"\..\Papers"
 $pdfs = Get-ChildItem $workingdir -File -Filter *.pdf
 
-
-
-
 $table = "<table 
 style=""width:100%"">
   <tr>
