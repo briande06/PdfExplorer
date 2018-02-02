@@ -6,12 +6,7 @@ $workingdir=$PWD.Path+"\..\Papers"
 $pdfs = Get-ChildItem $workingdir -File -Filter *.pdf
 
 
-$style = "<style> 
-table, th, td {    border: 1px solid black;    border-collapse: collapse; }
-th, td {    padding: 5px; }
-th {    text-align: left; }
-td:nth-child(1) {  font-weight:bold }
-</style>"
+
 
 $table = "<table 
 style=""width:100%"">
@@ -19,6 +14,7 @@ style=""width:100%"">
     <th>File</th>
     <th>Title</th>
     <th>Author</th>
+    <th>Nulber of Page</th>
   </tr>"
   
 foreach($file in $pdfs)
@@ -43,15 +39,34 @@ foreach($file in $pdfs)
   $relativeFile=Resolve-Path -Path $file.FullName -Relative
   $table = $table + "<tr> <td> <a href=""" +$relativeFile + " "" >" + $filename + "</a></td>  
           <td>" + $title + "</td> 
-          <td>"+ $author +"</td> 
+          <td>" + $author + "</td> 
+          <td>" + $reader.NumberOfPages + "</td> 
           </tr>"
 }
-$table += "</table>"
 
+$style = "<style> 
+
+table, th, td {    border: 1px solid black;    border-collapse: collapse; }
+th, td {    padding: 5px; }
+th {    text-align: left; }
+td:nth-child(1) {  font-weight:bold }
+
+ 
+body {
+  margin: 10px auto;
+  padding: 0 30px;
+  max-width: 900px;
+  
+}
+</style>"
 
 $text = "<!DOCTYPE html> 
 <html>"
-$text += "<head>" + $style + "</head> <body>"
+$text += "<head> <link href=""https://fonts.googleapis.com/css?family=Gloria+Hallelujah"" rel=""stylesheet""> 
+" + $style + " 
+<title> Papers </title>
+</head>
+ <body>"
 $text += "<h2>Summary</h2>"
 $text += $table
 $text += "</body> </html>"
