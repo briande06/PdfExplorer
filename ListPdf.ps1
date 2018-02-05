@@ -2,7 +2,7 @@
 [System.Reflection.Assembly]::LoadFrom($PWD.Path + "\itextsharp.dll")
 
 
-$workingdir = $PWD.Path + "\..\Papers"
+$workingdir = "K:\Papers"
 $pdfs = Get-ChildItem $workingdir -File -Filter *.pdf
 
 $table = "<table 
@@ -30,8 +30,8 @@ foreach ($file in $pdfs) {
     else {
         $author = "Unknown"
     }
-    $relativeFile = Resolve-Path -Path $file.FullName -Relative
-    $table = $table + "<tr> <td> <a href=""" + $relativeFile + " "" >" + $filename + "</a></td>  
+    #$relativeFile = Resolve-Path -Path $file.FullName -Relative
+    $table = $table + "<tr> <td> <a href="".\" + $file.Name + " "" >" + $filename + "</a></td>  
           <td>" + $title + "</td> 
           <td>" + $author + "</td> 
           <td>" + $reader.NumberOfPages + "</td> 
@@ -43,7 +43,7 @@ $style = "<style>
 
 table, th, td {    border: 1px solid black;    border-collapse: collapse; }
 th, td {    padding: 5px; }
-th {    text-align: left; }
+th {    text-align: center; }
 td:nth-child(1) {  font-weight:bold }
 
 
@@ -75,9 +75,8 @@ $text += "<head> <link href=""https://fonts.googleapis.com/css?family=Comfortaa"
 <title> Papers </title>
 </head>
  <body>"
-$text += "<h2>Summary</h2>" 
+$text += "<h2>Papers</h2>" 
 $text += $table
 $text += "</body>
-<div class=""footer"">End</div>
  </html>"
 $text > 'pdfs.html'
